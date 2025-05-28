@@ -31,7 +31,7 @@ $routes->get('login', [Auth::class, 'login'], ['filter' => 'customerGuest']);
 $routes->post('login', [Auth::class, 'attemptCustomerLogin'], ['filter' => 'customerGuest']);
 $routes->get('logout', [Auth::class, 'customerLogout'], ['filter' => 'customerAuth']);
 $routes->get('register', [Auth::class, 'register'], ['filter' => 'customerGuest']);
-$routes->post('register', [Auth::class, 'register'], ['filter' => 'customerGuest']);
+$routes->post('register', [Auth::class, 'save'], ['filter' => 'customerGuest']);
 
 
 
@@ -55,6 +55,13 @@ $routes->group('admin', ['filter' => 'adminAuth'], function ($routes) {
     $routes->get('/', 'Admin::index'); // Dashboard admin di /admin atau /admin/
     $routes->get('dashboard', 'Admin::index');
 
+    //manajemen admin
+    $routes->get('pengguna', 'Admin::pengguna_index');
+    $routes->get('pengguna/tambah', 'Admin::pengguna_tambah');
+    $routes->post('pengguna/simpan', 'Admin::pengguna_simpan');
+    //ganti password
+    $routes->get('profil', 'Admin::profil');
+    $routes->post('profil/update_password', 'Admin::update_password');
     // Produk
     $routes->get('produk', 'Admin::produk');
     $routes->get('produk/tambah', 'Admin::produk_tambah');
@@ -72,8 +79,18 @@ $routes->group('admin', ['filter' => 'adminAuth'], function ($routes) {
     $routes->get('kategori/hapus/(:num)', 'Admin::kategori_hapus/$1');
 // Pesanan (Baru)
     $routes->get('pesanan', 'Admin::pesanan'); 
-    $routes->post('pesanan/konfirmasi_pembayaran/(:num)', 'Admin::konfirmasi_pembayaran/$1');
-    $routes->get('pesanan/detail/(:num)', 'Admin::pesanan_detail/$1'); 
+    $routes->get('pesanan/detail/(:num)', 'Admin::pesanan_detail/$1');  
+    $routes->post('pesanan/konfirmasi_pembayaran/(:num)', 'Admin::konfirmasi_pembayaran/$1'); 
+    $routes->post('pesanan/ubah_status/(:num)', 'Admin::ubah_status_pesanan/$1'); // Menggunakan nama method yang benar
+    $routes->get('pesanan/lihat_bukti/(:num)', 'Admin::lihat_bukti_pembayaran/$1'); 
+    // Hapus rute PembayaranController dari grup admin karena ini untuk pelanggan
+    // $routes->get('/pembayaran/konfirmasi/(:num)', 'PembayaranController::konfirmasi/$1');
+    // $routes->post('/pembayaran/upload', 'PembayaranController::upload');
+// Rute untuk manajemen pesan kontak
+    $routes->get('pesan', 'Admin::pesan_index');
+    $routes->get('pesan/detail/(:num)', 'Admin::pesan_detail/$1');
+    $routes->get('pesan/hapus/(:num)', 'Admin::pesan_hapus/$1');
+
 });
 
 
@@ -82,9 +99,13 @@ $routes->get('pesanan', [Pesanan::class, 'index'], ['filter' => 'customerAuth'])
 $routes->get('pesanan/detail/(:num)', [Pesanan::class, 'detail/$1'], ['filter' => 'customerAuth']);
 $routes->get('pesanan/checkout', [Pesanan::class, 'checkout'], ['filter' => 'customerAuth']);
 $routes->post('pesanan/proses_checkout', [Pesanan::class, 'proses_checkout'], ['filter' => 'customerAuth']);
-$routes->post('pesanan/proses_pembayaran_palsu/(:num)', [Pesanan::class, 'proses_pembayaran_palsu/$1'], ['filter' => 'customerAuth']);
+$routes->get('pesanan/instruksi/(:num)', [Pesanan::class, 'instruksi/$1'], ['filter' => 'customerAuth']); // Rute baru
 $routes->get('pesanan/bayar/(:num)', [Pesanan::class, 'bayar/$1'], ['filter' => 'customerAuth']);
-$routes->get('pesanan/terima/(:num)', [Pesanan::class, 'terima/$1'], ['filter' => 'customerAuth']);
+$routes->post('pesanan/terima/(:num)', 'Pesanan::terima/$1', ['filter' => 'customerAuth']); // Diubah ke POST
+$routes->post('pesanan/batalkan/(:num)', 'Pesanan::batalkan/$1', ['filter' => 'customerAuth']); // Rute baru untuk batalkan
+$routes->get('pembayaran/konfirmasi/(:num)', 'PembayaranController::konfirmasi/$1',['filter' => 'customerAuth']); // Rute tanpa / di awal
+$routes->post('/pembayaran/upload', 'PembayaranController::upload', ['filter' => 'customerAuth']);
+
 
 // Kontak
 $routes->get('kontak', [Kontak::class, 'index']);

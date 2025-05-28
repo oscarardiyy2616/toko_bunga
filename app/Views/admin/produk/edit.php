@@ -12,7 +12,9 @@
         </div>
     <?php endif; ?>
     <form action="<?= site_url('admin/produk/update/' . $bunga['id']) ?>" method="post" enctype="multipart/form-data">
-        <div class="form-group">
+    <?= csrf_field() ?>
+        <input type="hidden" name="id" value="<?= $bunga['id'] ?>">    
+    <div class="form-group">
             <label for="nama">Nama</label>
             <input type="text" name="nama" id="nama" class="form-control" value="<?= $bunga['nama'] ?>">
         </div>

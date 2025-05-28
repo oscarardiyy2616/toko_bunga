@@ -7,9 +7,18 @@ use App\Controllers\BaseController;
 
 class Auth extends BaseController
 {
+protected PelangganModel $pelangganModel;
+protected \CodeIgniter\Session\Session $session;
+
     // ===========================
     // CUSTOMER LOGIN / LOGOUT
     // ===========================
+    public function __construct()
+    {
+        $this->pelangganModel = new PelangganModel();
+        $this->session = \Config\Services::session();
+        // Or use the helper: $this->session = session();
+    }
 
     public function login()
     {

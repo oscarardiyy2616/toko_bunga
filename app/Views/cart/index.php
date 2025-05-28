@@ -12,6 +12,7 @@
         <a href="<?= site_url('produk') ?>" class="btn btn-primary">Lanjut Belanja</a>
     <?php else : ?>
         <form action="<?= site_url('cart/update') ?>" method="post">
+            <?= csrf_field() ?>
             <table class="table">
                 <thead>
                     <tr>

@@ -7,7 +7,7 @@
     <meta name="author" content="" />
     <title><?= $title ?? 'Toko Bunga Indah' ?></title>
     <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="<?= base_url('main_template/favicon.ico') ?>" />
+    <link rel="icon" type="image/x-icon" href="<?= base_url('main_template/img/Belajar-dari-Filosofi-Bunga-Mawar.jpg') ?>" />
     <!-- Bootstrap icons-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
@@ -32,7 +32,7 @@
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCustomer" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Halo, <?= esc(session()->get('customer_name')) ?>
                                 </a>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownCustomer">
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownCustomer">                                   
                                     <li><a class="dropdown-item" href="<?= site_url('pesanan') ?>">Pesanan Saya</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" href="<?= site_url('logout') ?>">Logout</a></li>

@@ -74,4 +74,37 @@ class BungaModel extends Model
         }
         return $data;
     }
+    public function updateStok(int $produkId, int $jumlahUbah, string $operasi = 'kurang'): bool
+    {
+        $produk = $this->find($produkId);
+
+        if (!$produk) {
+            log_message('error', "Produk dengan ID: {$produkId} tidak ditemukan saat update stok.");
+            return false;
+        }
+
+        $stokSaatIni = (int)$produk['jumlah'];
+        $stokBaru = $stokSaatIni;
+
+        if ($operasi === 'tambah') {
+            $stokBaru = $stokSaatIni + $jumlahUbah;
+        } elseif ($operasi === 'kurang') {
+            if ($stokSaatIni < $jumlahUbah) {
+                // Stok tidak mencukupi untuk dikurangi
+                log_message('warning', "Stok produk ID: {$produkId} tidak mencukupi. Stok saat ini: {$stokSaatIni}, diminta: {$jumlahUbah}.");
+                // Anda bisa memilih untuk return false atau melempar exception
+                // Untuk saat ini, kita set stok menjadi 0 jika diminta lebih banyak dari yang ada
+                // Namun, idealnya validasi ini dilakukan sebelum pemanggilan updateStok
+                $stokBaru = 0; 
+                // return false; // Atau batalkan operasi jika stok tidak cukup
+            } else {
+                $stokBaru = $stokSaatIni - $jumlahUbah;
+            }
+        } else {
+            log_message('error', "Operasi tidak dikenal: {$operasi} saat update stok produk ID: {$produkId}.");
+            return false;
+        }
+
+        return $this->update($produkId, ['jumlah' => $stokBaru]);
+    }
 }

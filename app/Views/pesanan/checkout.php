@@ -39,7 +39,23 @@
     <form action="<?= site_url('pesanan/proses_checkout') ?>" method="post">
         <?= csrf_field() ?>
         <!-- Anda bisa menambahkan field lain di sini jika diperlukan, misal alamat pengiriman -->
-        <button type="submit" class="btn btn-success">Lanjutkan ke Pembayaran</button>
+   <div class="form-group my-3">
+            <label for="metode_pembayaran">Pilih Metode Pembayaran:</label>
+            <select name="metode_pembayaran" id="metode_pembayaran" class="form-control" required>
+                <option value="">-- Pilih Metode --</option>
+                <option value="Transfer Bank BCA" <?= old('metode_pembayaran') == 'Transfer Bank BCA' ? 'selected' : '' ?>>Transfer Bank BCA</option>
+                <option value="Transfer Bank Mandiri" <?= old('metode_pembayaran') == 'Transfer Bank Mandiri' ? 'selected' : '' ?>>Transfer Bank Mandiri</option>
+                <option value="DANA" <?= old('metode_pembayaran') == 'DANA' ? 'selected' : '' ?>>DANA</option>
+                <!-- Tambahkan metode lain jika ada -->
+            </select>
+        </div>
+
+        <!-- Anda bisa menambahkan field lain di sini jika diperlukan, misal alamat pengiriman, catatan, dll. -->
+        <!-- <div class="form-group">
+            <label for="catatan">Catatan (Opsional):</label>
+            <textarea name="catatan" id="catatan" class="form-control"><?= old('catatan') ?></textarea>
+        </div> -->
+        <button type="submit" class="btn btn-success">Buat Pesanan & Lanjut Pembayaran</button>
     </form>
     <a href="<?= site_url('cart') ?>" class="btn btn-primary mt-2">Kembali ke Keranjang</a>
 

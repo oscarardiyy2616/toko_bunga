@@ -12,7 +12,7 @@ class PesananModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['pelanggan_id', 'total_harga', 'status_pesanan', 'metode_pembayaran','created_at', 'updated_at'];
+    protected $allowedFields    = ['pelanggan_id', 'total_harga', 'status_pesanan', 'status_pembayaran', 'file_bukti_pembayaran', 'atas_nama_pengirim', 'metode_pembayaran','created_at', 'updated_at'];
 
     protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
@@ -22,7 +22,11 @@ class PesananModel extends Model
      protected $validationRules      = [
         'pelanggan_id' => 'required|integer',
         'total_harga'  => 'required|numeric',
-        'status_pesanan' => 'required|in_list[Belum Dibayar,Sudah Dibayar,Dikemas,Dikirim,Selesai,Dibatalkan]',
+        'status_pesanan' => 'required|in_list[Menunggu Pembayaran,Menunggu Konfirmasi,Pembayaran Diterima,Diproses,Dikemas,Dikirim,Selesai,Dibatalkan,Tertunda]',
+        'status_pembayaran' => 'permit_empty|in_list[belum_bayar,menunggu_konfirmasi,lunas,gagal,dibatalkan,kadaluarsa]',
+        'file_bukti_pembayaran' => 'permit_empty|max_length[255]',
+        'atas_nama_pengirim' => 'permit_empty|string|max_length[100]',
+        'metode_pembayaran' => 'permit_empty|string|max_length[50]',
     ];
     protected $validationMessages   = [
         'pelanggan_id' => [
@@ -36,6 +40,20 @@ class PesananModel extends Model
         'status_pesanan' => [
             'required' => 'Status pesanan harus diisi.',
             'in_list'  => 'Status pesanan tidak valid.',
+        ],
+        'status_pembayaran' => [
+            'in_list' => 'Status pembayaran tidak valid.',
+        ],
+        'file_bukti_pembayaran' => [
+            'max_length' => 'Nama file bukti pembayaran terlalu panjang (maks 255 karakter).',
+        ],
+        'atas_nama_pengirim' => [
+            'string' => 'Nama pengirim harus berupa teks.',
+            'max_length' => 'Nama pengirim terlalu panjang (maks 100 karakter).',
+        ],
+        'metode_pembayaran' => [
+            'string' => 'Metode pembayaran harus berupa teks.',
+            'max_length' => 'Metode pembayaran terlalu panjang (maks 50 karakter).',
         ],
     ];
 
@@ -52,11 +70,26 @@ class PesananModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function getPesananWithDetails($pesananId)
+     public function getPesananWithDetailsForAdmin($pesananId)
     {
-        return $this->select('pesanan.*, pelanggan.nama as nama_pelanggan')
-                    ->join('pelanggan', 'pelanggan.id = pesanan.pelanggan_id')
+         return $this->select('pesanan.*, 
+                                pelanggan.nama as nama_pelanggan, 
+                                pelanggan.email as email_pelanggan,  
+                                pelanggan.telepon as telepon_pelanggan, 
+                                pelanggan.alamat as alamat_pelanggan')
+                    ->join('pelanggan', 'pelanggan.id = pesanan.pelanggan_id', 'left')  
                     ->where('pesanan.id', $pesananId)
+                    ->first();
+    }
+    public function getPesananForCustomer($pesananId, $pelangganId)
+    {
+        // Anda bisa menyesuaikan select() sesuai kebutuhan pelanggan
+        // Untuk contoh ini, kita ambil semua kolom dari pesanan yang cocok
+        // Melakukan join ke tabel pelanggan untuk mendapatkan nama_pelanggan
+        return $this->select('pesanan.*, pelanggan.nama as nama_pelanggan') // Ambil semua dari pesanan dan nama dari pelanggan
+                    ->join('pelanggan', 'pelanggan.id = pesanan.pelanggan_id', 'left') // Gunakan left join untuk keamanan
+                    ->where('pesanan.id', $pesananId)
+                    ->where('pelanggan_id', $pelangganId)
                     ->first();
     }
 }

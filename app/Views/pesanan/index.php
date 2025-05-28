@@ -6,7 +6,7 @@
         <div class="alert alert-success"><?= session()->get('success') ?></div>
     <?php endif; ?>
     <?php if (session()->get('info')) : ?>
-        <div class="alert alert-success"><?= session()->get('success') ?></div>
+         <div class="alert alert-info"><?= session()->get('info') ?></div>
     <?php endif; ?>
     <table class="table">
         <thead>
@@ -30,9 +30,9 @@
                          <?php /* Tombol Bayar tidak lagi relevan jika admin yang konfirmasi */ ?>
                          <?php /* if($p['status_pesanan'] == 'Belum Dibayar'): ?> <?php endif; */ ?>
                          <?php if($p['status_pesanan'] == 'Dikirim'): ?>
-                            <a href="<?= site_url('pesanan/terima/' . $p['id']) ?>" class="btn btn-primary">Terima</a
+                             <a href="<?= site_url('pesanan/terima/' . $p['id']) ?>" class="btn btn-primary">Terima</a>
                         <?php endif; ?>
-                    </td>
+                         </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>

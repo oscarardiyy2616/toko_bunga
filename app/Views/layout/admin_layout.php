@@ -5,8 +5,10 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="Admin Dashboard Toko Bunga Indah" />
-        <meta name="author" content="" />
-        <title><?= $title ?? 'Admin Dashboard' ?> - Toko Bunga Indah</title>
+        <meta name="author" content="Toko Bunga Indah" />
+        <title><?= esc($title ?? 'Admin Dashboard') ?> - Toko Bunga Indah</title>
+        <!-- Menggunakan favicon yang sama dengan halaman utama -->
+        <link rel="icon" type="image/x-icon" href="<?= base_url('main_template/img/Belajar-dari-Filosofi-Bunga-Mawar.jpg') ?>" />
         <!-- SB Admin CSS -->
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link href="<?= base_url('admin_template/css/styles.css') ?>" rel="stylesheet" />
@@ -64,7 +66,19 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>
                                 Pesanan
                             </a>
-                            <!-- Add other admin menus here -->
+                            <div class="sb-sidenav-menu-heading">Pengaturan</div>
+                            <a class="nav-link <?= (strpos(uri_string(), 'admin/pengguna') !== false) ? 'active' : '' ?>" href="<?= site_url('admin/pengguna') ?>">
+                                <div class="sb-nav-link-icon"><i class="fas fa-users-cog"></i></div>
+                                Pengguna Admin
+                            </a>
+                            <a class="nav-link <?= (strpos(uri_string(), 'admin/profil') !== false) ? 'active' : '' ?>" href="<?= site_url('admin/profil') ?>">
+                                <div class="sb-nav-link-icon"><i class="fas fa-user-shield"></i></div>
+                                Ganti Password
+                            </a>
+                            <a class="nav-link <?= (strpos(uri_string(), 'admin/pesan') !== false) ? 'active' : '' ?>" href="<?= site_url('admin/pesan') ?>">
+                                <div class="sb-nav-link-icon"><i class="fas fa-envelope"></i></div>
+                                Pesan Masuk
+                            </a>    
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">

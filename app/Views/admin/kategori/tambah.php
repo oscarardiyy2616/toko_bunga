@@ -12,6 +12,7 @@
         </div>
     <?php endif; ?>
     <form action="<?= site_url('admin/kategori/simpan') ?>" method="post">
+        <?= csrf_field() ?>
         <div class="form-group">
             <label for="nama">Nama Kategori</label>
             <input type="text" name="nama" id="nama" class="form-control" value="<?= old('nama') ?>">

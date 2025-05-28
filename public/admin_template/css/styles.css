@@ -286,7 +286,17 @@ code {
 a > code {
   color: inherit;
 }
+.form-container-small-center {
+   max-width: 450px;
+   margin: 2rem auto;
+   padding: 20px;
+   border-radius: 8px;
+}
 
+.centered-form-col {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
 kbd {
   padding: 0.1875rem 0.375rem;
   font-size: 0.875em;

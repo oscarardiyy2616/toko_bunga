@@ -8,6 +8,8 @@
     <p>Harga: Rp <?= number_format($bunga['harga']) ?></p>
     <p>Sisa Stok: <?= $bunga['jumlah'] ?></p>
      <form action="<?= site_url('cart/tambah') ?>" method="post">
+        <?= csrf_field() ?>
+        <input type="hidden" name="nama" value="<?= $bunga['nama'] ?>"> 
         <input type="hidden" name="id" value="<?= $bunga['id'] ?>">
         <input type="number" name="qty" value="1" min="1" max="<?= $bunga['jumlah'] ?>">
         <button type="submit" class="btn btn-success">Tambah ke Keranjang</button>

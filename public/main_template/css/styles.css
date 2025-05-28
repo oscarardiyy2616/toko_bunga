@@ -1797,6 +1797,17 @@ progress {
   --bs-table-accent-bg: var(--bs-table-striped-bg);
   color: var(--bs-table-striped-color);
 }
+.form-container-small-center {
+   max-width: 450px;
+   margin: 2rem auto;
+   padding: 20px;
+   border-radius: 8px;
+}
+
+.centered-form-col {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
 
 .table-striped-columns > :not(caption) > tr > :nth-child(even) {
   --bs-table-accent-bg: var(--bs-table-striped-bg);

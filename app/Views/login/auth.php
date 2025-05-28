@@ -6,6 +6,7 @@
         <div class="alert alert-danger"><?= session()->get('error') ?></div>
     <?php endif; ?>
     <form action="<?= site_url('login') ?>" method="post">
+        <?= csrf_field() ?>
         <div class="form-group">
             <label for="email">Email</label>
             <input type="email" name="email" id="email" class="form-control" value="<?= old('email') ?>">
